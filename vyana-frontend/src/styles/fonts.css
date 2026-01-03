@@ -1,0 +1,14 @@
+/* Import soothing fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@300;400;500&family=Quicksand:wght@400;500&display=swap');
+
+:root {
+  --font-heading: 'Poppins', sans-serif;    /* Clean & modern */
+  --font-body: 'Inter', sans-serif;         /* Highly readable */
+  --font-accent: 'Quicksand', sans-serif;   /* Soft & rounded */
+  
+  /* Font weights */
+  --light: 300;
+  --regular: 400;
+  --medium: 500;
+  --semibold: 600;
+}

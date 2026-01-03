@@ -1,0 +1,16 @@
+.App {
+  text-align: center;
+  padding: 2rem;
+  color: white;
+}
+
+.App h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.App p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
