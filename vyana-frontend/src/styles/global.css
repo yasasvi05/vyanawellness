@@ -1,21 +1,33 @@
-/* Import fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@300;400;500&family=Quicksand:wght@400;500&display=swap');
+/* ---------- IMPORT FONTS ---------- */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@300;400;500&family=Quicksand:wght@400;500&display=swap");
 
+/* ---------- ROOT VARIABLES ---------- */
 :root {
   /* Font families */
-  --font-heading: 'Poppins', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-accent: 'Quicksand', sans-serif;
-  
-  /* Color variables */
-  --calm-blue: #6C9BCF;
-  --serene-teal: #4ECDC4;
-  --misty-blue: #A8D0E6;
-  --cloud-white: #FFFFFF;
-  --soft-gray: #F7F9FC;
-  --gentle-charcoal: #2C3E50;
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-accent: "Quicksand", sans-serif;
+
+  /* VYANA color palette */
+  --green-dark: #2e5c3e;
+  --green-main: #4a7c59;
+  --green-soft: #7c9885;
+  --green-light: #a5d6a7;
+
+  --bg-main: #e8f5e9;
+  --bg-soft: #f1f8f4;
+  --cloud-white: #ffffff;
+
+  --text-primary: #2e5c3e;
+  --text-secondary: #5a8a6a;
+
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.5);
+
+  --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.06);
 }
 
+/* ---------- RESET ---------- */
 * {
   margin: 0;
   padding: 0;
@@ -23,102 +35,173 @@
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
+/* ---------- BODY ---------- */
 body {
   font-family: var(--font-body);
-  background: linear-gradient(135deg, #F7F9FC 0%, #E3F2FD 100%);
-  color: var(--gentle-charcoal);
+  background: linear-gradient(
+    135deg,
+    #e8f5e9 0%,
+    #c8e6c9 50%,
+    #a5d6a7 100%
+  );
+  color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
-/* Smooth scroll */
+/* ---------- SMOOTH SCROLL ---------- */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
+/* ---------- HEADINGS ---------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  color: var(--green-dark);
+}
+
+/* ---------- TEXT ---------- */
+p,
+span,
+li,
+label {
+  color: var(--text-secondary);
+}
+
+/* ---------- LINKS ---------- */
+a {
+  color: var(--green-main);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--green-dark);
+}
+
+/* ---------- FOCUS ---------- */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--green-soft);
+  outline-offset: 2px;
+}
+
+/* ---------- CUSTOM SCROLLBAR ---------- */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(168, 208, 230, 0.1);
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(108, 155, 207, 0.3);
+  background: linear-gradient(180deg, #7c9885, #4a7c59);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(108, 155, 207, 0.5);
+  background: linear-gradient(180deg, #4a7c59, #2e5c3e);
 }
 
-/* Selection */
+/* ---------- TEXT SELECTION ---------- */
 ::selection {
-  background-color: rgba(108, 155, 207, 0.3);
-  color: var(--gentle-charcoal);
+  background-color: rgba(124, 152, 133, 0.3);
+  color: var(--green-dark);
 }
 
-/* Focus styles */
-:focus {
-  outline: none;
-}
-
-:focus-visible {
-  outline: 2px solid var(--calm-blue);
-  outline-offset: 2px;
-}
-
-/* Utility classes */
+/* ---------- UTILITY ---------- */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
 
-/* Animation keyframes */
+/* ---------- GLASSMORPHISM ---------- */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-soft);
+}
+
+/* ---------- ANIMATIONS ---------- */
 @keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(5deg); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 @keyframes breathe {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.05); opacity: 0.8; }
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 0.85;
+  }
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
-@keyframes wave {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Loading skeleton */
+/* ---------- LOADING SKELETON ---------- */
 .skeleton {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background: linear-gradient(
+    90deg,
+    #f1f8f4 25%,
+    #e0efe6 50%,
+    #f1f8f4 75%
+  );
   background-size: 200% 100%;
   animation: loading 1.5s infinite;
 }
 
 @keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
-/* Responsive */
+/* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px) {
   .container {
     padding: 0 16px;

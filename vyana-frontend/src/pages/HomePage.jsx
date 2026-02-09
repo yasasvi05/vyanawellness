@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react";
 import { 
   Container, 
   Typography, 
@@ -9,215 +9,403 @@ import {
   Card,
   CardContent,
   CardActions
-} from '@mui/material';
-import { Link } from 'react-router-dom';
-import PsychologyIcon from '@mui/icons-material/Psychology';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
-import GroupsIcon from '@mui/icons-material/Groups';
-import InsightsIcon from '@mui/icons-material/Insights';
-import { useAuth } from '../contexts/AuthContext';
+} from "@mui/material";
+import { Link } from "react-router-dom";
+import PsychologyIcon from "@mui/icons-material/Psychology";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import GroupsIcon from "@mui/icons-material/Groups";
+import InsightsIcon from "@mui/icons-material/Insights";
+import { useAuth } from "../contexts/AuthContext";
 
 const HomePage = () => {
   const { isAuthenticated } = useAuth();
+  const [isHovering, setIsHovering] = useState(false);
 
   const features = [
     {
-      icon: <PsychologyIcon sx={{ fontSize: 40, color: '#6366f1' }} />,
-      title: 'Emotion Detection',
-      description: 'AI-powered analysis of your emotions from text inputs',
-      color: '#6366f1'
+      icon: <PsychologyIcon sx={{ fontSize: 40, color: "#7c9885" }} />,
+      title: "Emotion Detection",
+      description: "Gentle AI-powered analysis of your emotions",
+      color: "#7c9885"
     },
     {
-      icon: <ChatBubbleIcon sx={{ fontSize: 40, color: '#8b5cf6' }} />,
-      title: 'AI Chatbot',
-      description: '24/7 emotional support with adaptive responses',
-      color: '#8b5cf6'
+      icon: <ChatBubbleIcon sx={{ fontSize: 40, color: "#a8b5a1" }} />,
+      title: "AI Chatbot",
+      description: "Compassionate support, available anytime",
+      color: "#a8b5a1"
     },
     {
-      icon: <GroupsIcon sx={{ fontSize: 40, color: '#10b981' }} />,
-      title: 'Peer Support',
-      description: 'Anonymous group chats with people facing similar challenges',
-      color: '#10b981'
+      icon: <GroupsIcon sx={{ fontSize: 40, color: "#8fa89e" }} />,
+      title: "Peer Support",
+      description: "Connect with others in a safe space",
+      color: "#8fa89e"
     },
     {
-      icon: <InsightsIcon sx={{ fontSize: 40, color: '#f59e0b' }} />,
-      title: 'Progress Tracking',
-      description: 'Monitor your emotional journey with detailed analytics',
-      color: '#f59e0b'
+      icon: <InsightsIcon sx={{ fontSize: 40, color: "#b8c5b0" }} />,
+      title: "Progress Tracking",
+      description: "Observe your journey with kindness",
+      color: "#b8c5b0"
     },
   ];
 
   return (
-    <Box sx={{ minHeight: '100vh', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', py: 8 }}>
-      <Container maxWidth="lg">
-        {/* Hero Section */}
-        <Box sx={{ textAlign: 'center', mb: 10, color: 'white' }}>
-          <PsychologyIcon sx={{ fontSize: 80, mb: 3, color: 'white' }} />
-          <Typography variant="h1" sx={{ fontWeight: 800, mb: 3, fontSize: { xs: '2.5rem', md: '4rem' } }}>
-            VYANA
-          </Typography>
-          <Typography variant="h4" sx={{ fontWeight: 500, mb: 4, opacity: 0.9 }}>
-            Real-time AI-Assisted Mental Wellness Platform
-          </Typography>
-          <Typography variant="h6" sx={{ mb: 6, maxWidth: 800, mx: 'auto', opacity: 0.8 }}>
-            Detect emotions, get adaptive support, connect with peers, and ensure safety through intelligent monitoring
-          </Typography>
-          
-          {isAuthenticated ? (
-            <Button
-              component={Link}
-              to="/dashboard"
-              variant="contained"
-              size="large"
+    <Box 
+      sx={{ 
+        minHeight: "100vh", 
+        position: "relative",
+        overflow: "hidden",
+        background: "linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%)",
+      }}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      {/* Background meditation image that appears on hover */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundImage: "url(https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1600&q=80)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: isHovering ? 0.25 : 0,
+          transition: "opacity 1.2s ease-in-out",
+          zIndex: 0,
+          filter: "blur(2px)",
+        }}
+      />
+
+      {/* Content overlay */}
+      <Box sx={{ position: "relative", zIndex: 1, py: 8 }}>
+        <Container maxWidth="lg">
+          {/* Hero Section */}
+          <Box sx={{ textAlign: "center", mb: 10 }}>
+            <Box
               sx={{
-                px: 6,
-                py: 2,
-                bgcolor: 'white',
-                color: '#6366f1',
-                fontWeight: 700,
-                fontSize: '1.1rem',
-                '&:hover': {
-                  bgcolor: '#f8fafc',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
-                },
-                transition: 'all 0.3s ease',
+                display: "inline-block",
+                p: 3,
+                borderRadius: "50%",
+                bgcolor: "rgba(255, 255, 255, 0.5)",
+                backdropFilter: "blur(10px)",
+                mb: 3,
+                transition: "all 0.6s ease",
+                "&:hover": {
+                  transform: "scale(1.1) rotate(5deg)",
+                  bgcolor: "rgba(255, 255, 255, 0.7)",
+                }
               }}
             >
-              Go to Dashboard
-            </Button>
-          ) : (
-            <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center' }}>
+              <PsychologyIcon sx={{ fontSize: 80, color: "#4a7c59" }} />
+            </Box>
+            
+            <Typography 
+              variant="h1" 
+              sx={{ 
+                fontWeight: 300, 
+                mb: 2, 
+                fontSize: { xs: "3rem", md: "5rem" },
+                color: "#2e5c3e",
+                letterSpacing: "0.05em",
+                fontFamily: '"Playfair Display", serif',
+              }}
+            >
+              VYANA
+            </Typography>
+            
+            <Typography 
+              variant="h5" 
+              sx={{ 
+                fontWeight: 300, 
+                mb: 4, 
+                color: "#4a7c59",
+                fontStyle: "italic",
+                letterSpacing: "0.02em",
+              }}
+            >
+              Your sanctuary for mental wellness
+            </Typography>
+            
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                mb: 6, 
+                maxWidth: 700, 
+                mx: "auto", 
+                color: "#5a8a6a",
+                lineHeight: 1.8,
+                fontWeight: 300,
+              }}
+            >
+              A peaceful space to understand your emotions, find support, and nurture your well-being through mindful technology
+            </Typography>
+            
+            {isAuthenticated ? (
               <Button
                 component={Link}
-                to="/login"
+                to="/dashboard"
                 variant="contained"
                 size="large"
                 sx={{
-                  px: 6,
-                  py: 2,
-                  bgcolor: 'white',
-                  color: '#6366f1',
-                  fontWeight: 700,
-                  fontSize: '1.1rem',
-                  '&:hover': {
-                    bgcolor: '#f8fafc',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+                  px: 8,
+                  py: 2.5,
+                  bgcolor: "rgba(78, 124, 89, 0.9)",
+                  color: "white",
+                  fontWeight: 400,
+                  fontSize: "1rem",
+                  borderRadius: 50,
+                  textTransform: "none",
+                  letterSpacing: "0.05em",
+                  boxShadow: "0 4px 20px rgba(78, 124, 89, 0.3)",
+                  "&:hover": {
+                    bgcolor: "rgba(78, 124, 89, 1)",
+                    transform: "translateY(-3px)",
+                    boxShadow: "0 8px 30px rgba(78, 124, 89, 0.4)",
                   },
-                  transition: 'all 0.3s ease',
+                  transition: "all 0.4s ease",
                 }}
               >
-                Get Started
+                Enter Your Sanctuary
               </Button>
-              <Button
-                component={Link}
-                to="/signup"
-                variant="outlined"
-                size="large"
-                sx={{
-                  px: 6,
-                  py: 2,
-                  borderColor: 'white',
-                  color: 'white',
-                  fontWeight: 700,
-                  fontSize: '1.1rem',
-                  '&:hover': {
-                    bgcolor: 'rgba(255,255,255,0.1)',
-                    borderColor: 'white',
-                    transform: 'translateY(-2px)',
-                  },
-                  transition: 'all 0.3s ease',
-                }}
-              >
-                Sign Up
-              </Button>
-            </Box>
-          )}
-        </Box>
+            ) : (
+              <Box sx={{ display: "flex", gap: 3, justifyContent: "center", flexWrap: "wrap" }}>
+                <Button
+                  component={Link}
+                  to="/login"
+                  variant="contained"
+                  size="large"
+                  sx={{
+                    px: 8,
+                    py: 2.5,
+                    bgcolor: "rgba(78, 124, 89, 0.9)",
+                    color: "white",
+                    fontWeight: 400,
+                    fontSize: "1rem",
+                    borderRadius: 50,
+                    textTransform: "none",
+                    letterSpacing: "0.05em",
+                    boxShadow: "0 4px 20px rgba(78, 124, 89, 0.3)",
+                    "&:hover": {
+                      bgcolor: "rgba(78, 124, 89, 1)",
+                      transform: "translateY(-3px)",
+                      boxShadow: "0 8px 30px rgba(78, 124, 89, 0.4)",
+                    },
+                    transition: "all 0.4s ease",
+                  }}
+                >
+                  Begin Your Journey
+                </Button>
+                <Button
+                  component={Link}
+                  to="/signup"
+                  variant="outlined"
+                  size="large"
+                  sx={{
+                    px: 8,
+                    py: 2.5,
+                    borderColor: "rgba(78, 124, 89, 0.6)",
+                    color: "#4a7c59",
+                    fontWeight: 400,
+                    fontSize: "1rem",
+                    borderRadius: 50,
+                    borderWidth: 2,
+                    textTransform: "none",
+                    letterSpacing: "0.05em",
+                    "&:hover": {
+                      bgcolor: "rgba(78, 124, 89, 0.08)",
+                      borderColor: "rgba(78, 124, 89, 0.9)",
+                      borderWidth: 2,
+                      transform: "translateY(-3px)",
+                    },
+                    transition: "all 0.4s ease",
+                  }}
+                >
+                  Create Account
+                </Button>
+              </Box>
+            )}
+          </Box>
 
-        {/* Features Section */}
-        <Grid container spacing={4} sx={{ mb: 10 }}>
-          {features.map((feature, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
-              <Card 
-                sx={{ 
-                  height: '100%', 
-                  display: 'flex', 
-                  flexDirection: 'column',
-                  bgcolor: 'rgba(255,255,255,0.9)',
-                  backdropFilter: 'blur(10px)',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    transform: 'translateY(-8px)',
-                    boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-                  }
-                }}
-              >
-                <CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
-                  <Box sx={{ mb: 2 }}>
-                    {feature.icon}
-                  </Box>
-                  <Typography variant="h5" component="h2" gutterBottom sx={{ fontWeight: 600, color: feature.color }}>
-                    {feature.title}
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    {feature.description}
-                  </Typography>
-                </CardContent>
-                <CardActions sx={{ justifyContent: 'center', pb: 2 }}>
-                  <Button size="small" sx={{ color: feature.color }}>
-                    Learn More
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-
-        {/* Phase Info */}
-        <Paper 
-          elevation={0} 
-          sx={{ 
-            p: 4, 
-            bgcolor: 'rgba(255,255,255,0.9)',
-            backdropFilter: 'blur(10px)',
-            borderRadius: 4
-          }}
-        >
-          <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, textAlign: 'center', mb: 4, color: '#333' }}>
-            Development Phases
-          </Typography>
-          <Grid container spacing={3}>
-            {[
-              { phase: 'Phase 1', title: 'Core Foundation', features: ['User Auth', 'Emotion Check-in', 'AI Chatbot'] },
-              { phase: 'Phase 2', title: 'Real-time Features', features: ['Peer Support Rooms', 'Mood Activities', 'Progress Dashboard'] },
-              { phase: 'Phase 3', title: 'Safety Features', features: ['SOS Detection', 'Stress Mode', 'Emergency Contacts'] },
-              { phase: 'Phase 4', title: 'Admin & Analytics', features: ['Admin Dashboard', 'Analytics', 'Moderation Tools'] },
-            ].map((item, index) => (
-              <Grid item xs={12} md={3} key={index}>
-                <Box sx={{ p: 2 }}>
-                  <Typography variant="h6" sx={{ color: '#6366f1', fontWeight: 600, mb: 1 }}>
-                    {item.phase}
-                  </Typography>
-                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
-                    {item.title}
-                  </Typography>
-                  <ul style={{ paddingLeft: '1.5rem' }}>
-                    {item.features.map((feature, idx) => (
-                      <li key={idx}>
-                        <Typography variant="body1" color="text.secondary">
-                          {feature}
-                        </Typography>
-                      </li>
-                    ))}
-                  </ul>
-                </Box>
+          {/* Features Section */}
+          <Grid container spacing={4} sx={{ mb: 10 }}>
+            {features.map((feature, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <Card 
+                  sx={{ 
+                    height: "100%", 
+                    display: "flex", 
+                    flexDirection: "column",
+                    bgcolor: "rgba(255, 255, 255, 0.75)",
+                    backdropFilter: "blur(20px)",
+                    borderRadius: 4,
+                    border: "1px solid rgba(255, 255, 255, 0.5)",
+                    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.06)",
+                    transition: "all 0.5s ease",
+                    "&:hover": {
+                      transform: "translateY(-12px)",
+                      boxShadow: "0 16px 48px rgba(0, 0, 0, 0.12)",
+                      bgcolor: "rgba(255, 255, 255, 0.85)",
+                    }
+                  }}
+                >
+                  <CardContent sx={{ flexGrow: 1, textAlign: "center", p: 4 }}>
+                    <Box 
+                      sx={{ 
+                        mb: 3,
+                        transition: "transform 0.5s ease",
+                        "&:hover": {
+                          transform: "scale(1.15) rotate(5deg)",
+                        }
+                      }}
+                    >
+                      {feature.icon}
+                    </Box>
+                    <Typography 
+                      variant="h6" 
+                      component="h2" 
+                      gutterBottom 
+                      sx={{ 
+                        fontWeight: 500, 
+                        color: feature.color,
+                        mb: 2,
+                      }}
+                    >
+                      {feature.title}
+                    </Typography>
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        color: "#5a6c5a",
+                        lineHeight: 1.7,
+                        fontWeight: 300,
+                      }}
+                    >
+                      {feature.description}
+                    </Typography>
+                  </CardContent>
+                  <CardActions sx={{ justifyContent: "center", pb: 3 }}>
+                    <Button 
+                      size="small" 
+                      sx={{ 
+                        color: feature.color,
+                        textTransform: "none",
+                        fontWeight: 400,
+                        "&:hover": {
+                          bgcolor: "rgba(124, 152, 133, 0.1)",
+                        }
+                      }}
+                    >
+                      Explore →
+                    </Button>
+                  </CardActions>
+                </Card>
               </Grid>
             ))}
           </Grid>
-        </Paper>
-      </Container>
+
+          {/* Phase Info */}
+          <Paper 
+            elevation={0} 
+            sx={{ 
+              p: 6, 
+              bgcolor: "rgba(255, 255, 255, 0.75)",
+              backdropFilter: "blur(20px)",
+              borderRadius: 6,
+              border: "1px solid rgba(255, 255, 255, 0.5)",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.06)",
+            }}
+          >
+            <Typography 
+              variant="h4" 
+              gutterBottom 
+              sx={{ 
+                fontWeight: 300, 
+                textAlign: "center", 
+                mb: 6, 
+                color: "#2e5c3e",
+                letterSpacing: "0.02em",
+              }}
+            >
+              Our Roadmap to Wellness
+            </Typography>
+            <Grid container spacing={4}>
+              {[
+                { phase: "Phase 1", title: "Foundation", features: ["User Authentication", "Emotion Check-in", "AI Support"] },
+                { phase: "Phase 2", title: "Connection", features: ["Peer Support", "Mood Activities", "Progress Insights"] },
+                { phase: "Phase 3", title: "Safety", features: ["Crisis Detection", "Calm Mode", "Emergency Resources"] },
+                { phase: "Phase 4", title: "Growth", features: ["Admin Dashboard", "Analytics", "Community Tools"] },
+              ].map((item, index) => (
+                <Grid item xs={12} md={3} key={index}>
+                  <Box 
+                    sx={{ 
+                      p: 3,
+                      transition: "all 0.4s ease",
+                      "&:hover": {
+                        transform: "translateX(8px)",
+                      }
+                    }}
+                  >
+                    <Typography 
+                      variant="overline" 
+                      sx={{ 
+                        color: "#7c9885", 
+                        fontWeight: 600, 
+                        fontSize: "0.75rem",
+                        letterSpacing: "0.1em",
+                      }}
+                    >
+                      {item.phase}
+                    </Typography>
+                    <Typography 
+                      variant="h5" 
+                      sx={{ 
+                        fontWeight: 500, 
+                        mb: 2, 
+                        color: "#2e5c3e",
+                        mt: 1,
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                    <Box component="ul" sx={{ paddingLeft: "1.2rem", m: 0 }}>
+                      {item.features.map((feature, idx) => (
+                        <Box component="li" key={idx} sx={{ mb: 1 }}>
+                          <Typography 
+                            variant="body2" 
+                            sx={{ 
+                              color: "#5a8a6a",
+                              fontWeight: 300,
+                            }}
+                          >
+                            {feature}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </Box>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Paper>
+
+          {/* Calming Footer Quote */}
+          <Box sx={{ textAlign: "center", mt: 8, mb: 4 }}>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: "#4a7c59",
+                fontStyle: "italic",
+                fontWeight: 300,
+                letterSpacing: "0.02em",
+                opacity: 0.8,
+              }}
+            >
+              "Peace comes from within. Do not seek it without."
+            </Typography>
+          </Box>
+        </Container>
+      </Box>
     </Box>
   );
 };

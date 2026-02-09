@@ -1,41 +1,142 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@300;400;500&display=swap");
 
+/* ---------- CSS RESET ---------- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* ---------- ROOT VARIABLES (VYANA PALETTE) ---------- */
+:root {
+  --green-dark: #2e5c3e;
+  --green-main: #4a7c59;
+  --green-soft: #7c9885;
+  --green-light: #a5d6a7;
+  --green-bg: #e8f5e9;
+
+  --text-primary: #2e5c3e;
+  --text-secondary: #5a8a6a;
+
+  --white-glass: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.5);
+
+  --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+/* ---------- BODY ---------- */
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  background: linear-gradient(
+    135deg,
+    #e8f5e9 0%,
+    #c8e6c9 50%,
+    #a5d6a7 100%
+  );
+
+  color: var(--text-primary);
   min-height: 100vh;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* ---------- HEADINGS ---------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  color: var(--green-dark);
 }
 
-/* Custom scrollbar */
+/* ---------- TEXT ---------- */
+p,
+span,
+li,
+label {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ---------- LINKS ---------- */
+a {
+  color: var(--green-main);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--green-dark);
+}
+
+/* ---------- BUTTON SMOOTHNESS ---------- */
+button {
+  font-family: "Inter", sans-serif;
+  border-radius: 999px;
+  transition: all 0.3s ease;
+}
+
+/* ---------- INPUTS ---------- */
+input,
+textarea {
+  font-family: "Inter", sans-serif;
+}
+
+/* ---------- GLASSMORPHISM UTILITY ---------- */
+.glass {
+  background: var(--white-glass);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-soft);
+}
+
+/* ---------- CUSTOM SCROLLBAR ---------- */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+  background: linear-gradient(
+    180deg,
+    #7c9885,
+    #4a7c59
+  );
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: linear-gradient(
+    180deg,
+    #4a7c59,
+    #2e5c3e
+  );
+}
+
+/* ---------- CODE BLOCKS ---------- */
+code {
+  font-family: "JetBrains Mono", Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 0.2em 0.4em;
+  border-radius: 6px;
+  font-size: 0.9em;
+}
+
+/* ---------- SELECTION ---------- */
+::selection {
+  background: #c8e6c9;
+  color: #2e5c3e;
 }

@@ -1,270 +1,258 @@
-import React, { useState } from 'react';
-import { 
-  Container, 
-  Paper, 
-  Typography, 
-  TextField, 
-  Button, 
-  Box, 
-  Tabs, 
+import React, { useState } from "react";
+import {
+  Container,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Tabs,
   Tab,
   Alert,
-  CircularProgress
-} from '@mui/material';
-import { useAuth } from '../contexts/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
-import PsychologyIcon from '@mui/icons-material/Psychology';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
+  CircularProgress,
+} from "@mui/material";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate, Link } from "react-router-dom";
+import PsychologyIcon from "@mui/icons-material/Psychology";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
+
+const glassCard = {
+  bgcolor: "rgba(255,255,255,0.75)",
+  backdropFilter: "blur(20px)",
+  borderRadius: 4,
+  border: "1px solid rgba(255,255,255,0.5)",
+  boxShadow: "0 8px 32px rgba(0,0,0,0.06)",
+};
 
 const LoginPage = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    name: '',
-    confirmPassword: ''
+    email: "",
+    password: "",
+    name: "",
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
   const { login, signup, loading } = useAuth();
   const navigate = useNavigate();
 
-  const handleTabChange = (event, newValue) => {
+  const handleTabChange = (_, newValue) => {
     setActiveTab(newValue);
     setErrors({});
     setFormData({
-      email: '',
-      password: '',
-      name: '',
-      confirmPassword: ''
+      email: "",
+      password: "",
+      name: "",
+      confirmPassword: "",
     });
   };
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = "Email is invalid";
     }
-    
+
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = "Password is required";
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = "Minimum 6 characters required";
     }
-    
+
     if (activeTab === 1) {
       if (!formData.name) {
-        newErrors.name = 'Name is required';
+        newErrors.name = "Name is required";
       }
-      
       if (formData.password !== formData.confirmPassword) {
-        newErrors.confirmPassword = 'Passwords do not match';
+        newErrors.confirmPassword = "Passwords do not match";
       }
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     if (!validateForm()) return;
-    
-    let result;
-    
-    if (activeTab === 0) {
-      result = await login(formData.email, formData.password);
-    } else {
-      result = await signup({
-        email: formData.email,
-        password: formData.password,
-        name: formData.name
-      });
-    }
-    
-    if (result.success) {
-      navigate('/dashboard');
-    }
+
+    const result =
+      activeTab === 0
+        ? await login(formData.email, formData.password)
+        : await signup({
+            email: formData.email,
+            password: formData.password,
+            name: formData.name,
+          });
+
+    if (result.success) navigate("/dashboard");
   };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-    
-    // Clear error when user starts typing
+    setFormData({ ...formData, [e.target.name]: e.target.value });
     if (errors[e.target.name]) {
-      setErrors({
-        ...errors,
-        [e.target.name]: ''
-      });
+      setErrors({ ...errors, [e.target.name]: "" });
     }
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 8 }}>
-      <Paper 
-        elevation={10} 
-        sx={{ 
-          p: 4, 
-          borderRadius: 3,
-          background: 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(10px)'
-        }}
-      >
-        <Box sx={{ textAlign: 'center', mb: 3 }}>
-          <PsychologyIcon 
-            sx={{ 
-              fontSize: 60, 
-              color: '#6366f1',
-              mb: 2 
-            }} 
-          />
-          <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 700, color: '#333' }}>
-            Welcome to VYANA
-          </Typography>
-          <Typography variant="body1" color="textSecondary">
-            Your mental wellness companion
-          </Typography>
-        </Box>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        background:
+          "linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%)",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      <Container maxWidth="sm">
+        <Paper sx={{ ...glassCard, p: 5 }}>
+          {/* Header */}
+          <Box sx={{ textAlign: "center", mb: 4 }}>
+            <PsychologyIcon sx={{ fontSize: 64, color: "#4a7c59", mb: 2 }} />
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: 300,
+                fontFamily: '"Playfair Display", serif',
+                color: "#2e5c3e",
+              }}
+            >
+              Welcome to VYANA
+            </Typography>
+            <Typography sx={{ color: "#5a8a6a" }}>
+              A gentle space for your mental wellness
+            </Typography>
+          </Box>
 
-        <Tabs 
-          value={activeTab} 
-          onChange={handleTabChange} 
-          centered
-          sx={{ mb: 3 }}
-        >
-          <Tab 
-            icon={<LockOutlinedIcon />} 
-            iconPosition="start" 
-            label="Login" 
-            sx={{ fontWeight: 600 }}
-          />
-          <Tab 
-            icon={<PersonAddOutlinedIcon />} 
-            iconPosition="start" 
-            label="Sign Up" 
-            sx={{ fontWeight: 600 }}
-          />
-        </Tabs>
+          {/* Tabs */}
+          <Tabs value={activeTab} onChange={handleTabChange} centered sx={{ mb: 3 }}>
+            <Tab
+              icon={<LockOutlinedIcon />}
+              iconPosition="start"
+              label="Login"
+              sx={{ textTransform: "none", fontWeight: 500 }}
+            />
+            <Tab
+              icon={<PersonAddOutlinedIcon />}
+              iconPosition="start"
+              label="Sign Up"
+              sx={{ textTransform: "none", fontWeight: 500 }}
+            />
+          </Tabs>
 
-        <form onSubmit={handleSubmit}>
-          {activeTab === 1 && (
+          <form onSubmit={handleSubmit}>
+            {activeTab === 1 && (
+              <TextField
+                fullWidth
+                label="Full Name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                error={!!errors.name}
+                helperText={errors.name}
+                margin="normal"
+                disabled={loading}
+              />
+            )}
+
             <TextField
               fullWidth
-              label="Full Name"
-              name="name"
-              value={formData.name}
+              label="Email Address"
+              name="email"
+              value={formData.email}
               onChange={handleChange}
-              error={!!errors.name}
-              helperText={errors.name}
+              error={!!errors.email}
+              helperText={errors.email}
               margin="normal"
-              variant="outlined"
               disabled={loading}
             />
-          )}
 
-          <TextField
-            fullWidth
-            label="Email Address"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            error={!!errors.email}
-            helperText={errors.email}
-            margin="normal"
-            variant="outlined"
-            disabled={loading}
-          />
-
-          <TextField
-            fullWidth
-            label="Password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            error={!!errors.password}
-            helperText={errors.password}
-            margin="normal"
-            variant="outlined"
-            disabled={loading}
-          />
-
-          {activeTab === 1 && (
             <TextField
               fullWidth
-              label="Confirm Password"
-              name="confirmPassword"
+              label="Password"
+              name="password"
               type="password"
-              value={formData.confirmPassword}
+              value={formData.password}
               onChange={handleChange}
-              error={!!errors.confirmPassword}
-              helperText={errors.confirmPassword}
+              error={!!errors.password}
+              helperText={errors.password}
               margin="normal"
-              variant="outlined"
               disabled={loading}
             />
-          )}
+
+            {activeTab === 1 && (
+              <TextField
+                fullWidth
+                label="Confirm Password"
+                name="confirmPassword"
+                type="password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                error={!!errors.confirmPassword}
+                helperText={errors.confirmPassword}
+                margin="normal"
+                disabled={loading}
+              />
+            )}
+
+            {activeTab === 0 && (
+              <Box sx={{ textAlign: "right", mt: 1 }}>
+                <Link to="/forgot-password" style={{ textDecoration: "none" }}>
+                  <Typography sx={{ color: "#4a7c59", fontSize: "0.9rem" }}>
+                    Forgot password?
+                  </Typography>
+                </Link>
+              </Box>
+            )}
+
+            <Button
+              type="submit"
+              fullWidth
+              sx={{
+                mt: 4,
+                py: 1.5,
+                bgcolor: "rgba(78,124,89,0.9)",
+                color: "white",
+                textTransform: "none",
+                fontWeight: 500,
+                "&:hover": { bgcolor: "rgba(78,124,89,1)" },
+              }}
+              disabled={loading}
+            >
+              {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : activeTab === 0 ? (
+                "Sign In"
+              ) : (
+                "Create Account"
+              )}
+            </Button>
+          </form>
 
           {activeTab === 0 && (
-            <Box sx={{ textAlign: 'right', mt: 1, mb: 2 }}>
-              <Link to="/forgot-password" style={{ textDecoration: 'none', color: '#6366f1' }}>
-                <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                  Forgot Password?
-                </Typography>
-              </Link>
-            </Box>
-          )}
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            size="large"
-            sx={{
-              mt: 3,
-              mb: 2,
-              py: 1.5,
-              bgcolor: '#6366f1',
-              '&:hover': { bgcolor: '#4f46e5' },
-              borderRadius: 2,
-              fontWeight: 600
-            }}
-            disabled={loading}
-          >
-            {loading ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : activeTab === 0 ? 'Sign In' : 'Create Account'}
-          </Button>
-
-          {activeTab === 0 && (
-            <Typography variant="body2" align="center" sx={{ mt: 2, color: '#666' }}>
-              Don't have an account?{' '}
-              <Link 
-                to="#" 
-                onClick={() => setActiveTab(1)} 
-                style={{ textDecoration: 'none', color: '#6366f1', fontWeight: 600 }}
+            <Typography sx={{ textAlign: "center", mt: 3, color: "#5a8a6a" }}>
+              Don’t have an account?{" "}
+              <Link
+                to="#"
+                onClick={() => setActiveTab(1)}
+                style={{ color: "#4a7c59", fontWeight: 500 }}
               >
-                Sign up here
+                Sign up
               </Link>
             </Typography>
           )}
-        </form>
 
-        <Alert severity="info" sx={{ mt: 3, borderRadius: 2 }}>
-          <Typography variant="body2">
-            Demo credentials: Use any email and password (min 6 chars) to login
-          </Typography>
-        </Alert>
-      </Paper>
-    </Container>
+          <Alert severity="info" sx={{ mt: 4, borderRadius: 3 }}>
+            Demo mode: Use any email and password (6+ characters)
+          </Alert>
+        </Paper>
+      </Container>
+    </Box>
   );
 };
 

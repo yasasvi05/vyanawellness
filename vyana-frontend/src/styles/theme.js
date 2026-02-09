@@ -1,53 +1,59 @@
 export const colors = {
-  // Primary calming palette
-  calmBlue: '#6C9BCF',
-  sereneTeal: '#4ECDC4',
-  mistyBlue: '#A8D0E6',
-  softLavender: '#B19CD9',
-  
+  // Primary VYANA calming greens
+  primaryGreen: '#4A7C59',
+  deepGreen: '#2E5C3E',
+  softGreen: '#7C9885',
+  lightGreen: '#A5D6A7',
+
   // Neutrals
   cloudWhite: '#FFFFFF',
-  softGray: '#F7F9FC',
-  gentleCharcoal: '#2C3E50',
-  subtleGray: '#E8EEF4',
-  
-  // Accents (use sparingly)
-  hopefulGreen: '#77DD77',
-  warmCoral: '#FF9AA2',
+  softGray: '#F1F8F4',
+  subtleGray: '#E0EFE6',
+  gentleCharcoal: '#2E5C3E',
+
+  // Accents (very sparing)
+  hopefulGreen: '#81C784',
+  warmSand: '#F4EDE4',
   sunlightYellow: '#FFD166',
-  
-  // Emotion colors
+
+  // Emotion colors (non-aggressive)
   happy: '#FFD166',
-  sad: '#6C9BCF',
-  anxious: '#EFB7BA',
-  angry: '#FF9AA2',
-  neutral: '#A8D0E6',
-  
+  sad: '#7C9885',
+  anxious: '#A5D6A7',
+  angry: '#C05656',
+  neutral: '#C8E6C9',
+
   // States
-  success: '#4ECDC4',
-  warning: '#FFB74D',
-  error: '#FF9AA2',
-  info: '#6C9BCF',
+  success: '#4A7C59',
+  warning: '#E6B566',
+  error: '#C05656',
+  info: '#7C9885',
 };
 
 export const gradients = {
-  background: 'linear-gradient(135deg, #F7F9FC 0%, #E3F2FD 100%)',
-  card: 'linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%)',
-  soothing: 'linear-gradient(135deg, #6C9BCF 0%, #4ECDC4 100%)',
-  sunset: 'linear-gradient(135deg, #FFE8D6 0%, #F7CAC9 50%, #A8D0E6 100%)',
-  dawn: 'linear-gradient(135deg, #FFE8D6 0%, #F7CAC9 100%)',
+  background:
+    'linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 50%, #A5D6A7 100%)',
+
+  card:
+    'linear-gradient(145deg, #FFFFFF 0%, #F1F8F4 100%)',
+
+  soothing:
+    'linear-gradient(135deg, #7C9885 0%, #4A7C59 100%)',
+
+  dawn:
+    'linear-gradient(135deg, #F1F8F4 0%, #E8F5E9 100%)',
 };
 
 export const shadows = {
-  soft: '0 8px 32px rgba(108, 155, 207, 0.08)',
-  softer: '0 4px 20px rgba(108, 155, 207, 0.05)',
-  inner: 'inset 0 2px 4px rgba(0, 0, 0, 0.05)',
+  soft: '0 8px 32px rgba(74, 124, 89, 0.12)',
+  softer: '0 4px 20px rgba(74, 124, 89, 0.08)',
+  inner: 'inset 0 2px 4px rgba(0, 0, 0, 0.04)',
 };
 
 export const animations = {
   gentle: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   slow: 'all 0.5s ease',
-  bounce: 'all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+  bounce: 'all 0.25s ease-out',
 };
 
 export const theme = {

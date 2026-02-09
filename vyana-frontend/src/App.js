@@ -24,58 +24,114 @@ import Navbar from './components/common/Navbar';
 // Theme
 const theme = createTheme({
   palette: {
+    mode: 'light',
+
     primary: {
-      main: '#6366f1',
-      light: '#818cf8',
-      dark: '#4f46e5',
+      main: '#4A7C59',   // VYANA primary green
+      light: '#7C9885',
+      dark: '#2E5C3E',
+      contrastText: '#FFFFFF',
     },
+
     secondary: {
-      main: '#8b5cf6',
-      light: '#a78bfa',
-      dark: '#7c3aed',
+      main: '#A5D6A7',   // soft supportive green
+      light: '#C8E6C9',
+      dark: '#7CB342',
     },
+
     success: {
-      main: '#10b981',
+      main: '#4A7C59',
     },
+
     warning: {
-      main: '#f59e0b',
+      main: '#E6B566',
     },
+
     error: {
-      main: '#ef4444',
+      main: '#C05656',
     },
+
+    info: {
+      main: '#7C9885',
+    },
+
     background: {
-      default: '#f8fafc',
-      paper: '#ffffff',
+      default: '#E8F5E9',
+      paper: '#FFFFFF',
+    },
+
+    text: {
+      primary: '#2E5C3E',
+      secondary: '#5A8A6A',
     },
   },
+
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-    h1: {
-      fontWeight: 800,
-    },
-    h2: {
-      fontWeight: 700,
-    },
-    h3: {
-      fontWeight: 600,
+    fontFamily: '"Inter", "Poppins", "Roboto", sans-serif',
+    h1: { fontWeight: 700 },
+    h2: { fontWeight: 600 },
+    h3: { fontWeight: 600 },
+    h4: { fontWeight: 500 },
+    button: {
+      textTransform: 'none',
+      fontWeight: 500,
     },
   },
+
   shape: {
-    borderRadius: 12,
+    borderRadius: 16,
   },
+
   components: {
-    MuiButton: {
+    MuiCssBaseline: {
       styleOverrides: {
-        root: {
-          textTransform: 'none',
-          fontWeight: 600,
+        body: {
+          background:
+            'linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 50%, #A5D6A7 100%)',
         },
       },
     },
+
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#FFFFFF',
+          color: '#2E5C3E',
+          boxShadow: '0 4px 20px rgba(74, 124, 89, 0.12)',
+        },
+      },
+    },
+
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 999,
+          paddingInline: 20,
+        },
+        containedPrimary: {
+          boxShadow: '0 8px 24px rgba(74, 124, 89, 0.25)',
+        },
+      },
+    },
+
     MuiCard: {
       styleOverrides: {
         root: {
-          boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+          background:
+            'linear-gradient(145deg, #FFFFFF 0%, #F1F8F4 100%)',
+          boxShadow: '0 8px 32px rgba(74, 124, 89, 0.12)',
+          borderRadius: 20,
+        },
+      },
+    },
+
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          fontWeight: 500,
+          '&.Mui-selected': {
+            color: '#4A7C59',
+          },
         },
       },
     },
