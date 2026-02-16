@@ -11,6 +11,8 @@ import {
   LinearProgress,
   CircularProgress,
   TextField,
+  Tabs,
+  Tab,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import api from "../api/axios";
@@ -23,11 +25,32 @@ const glassCard = {
   boxShadow: "0 8px 32px rgba(0,0,0,0.06)",
 };
 
+/* ================= HEALING SOUNDS ================= */
+
+const soundCategories = {
+  anxiety: {
+    title: "Anxiety Relief",
+    embed: "https://www.youtube.com/embed/2OEL4P1Rz04",
+  },
+  focus: {
+    title: "Deep Focus",
+    embed: "https://www.youtube.com/embed/lFcSrYw-ARY",
+  },
+  sleep: {
+    title: "Sleep Calm",
+    embed: "https://www.youtube.com/embed/1ZYbU82GVz4",
+  },
+  nature: {
+    title: "Nature Sounds",
+    embed: "https://www.youtube.com/embed/eKFTSSKCzWA",
+  },
+};
+
 const ActivitiesPage = () => {
   const [moods, setMoods] = useState([]);
-  const [loadingMoods, setLoadingMoods] = useState(true);
-
   const [journalEntries, setJournalEntries] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const [selectedPrompt, setSelectedPrompt] = useState(null);
   const [journalText, setJournalText] = useState("");
 
@@ -35,10 +58,10 @@ const ActivitiesPage = () => {
   const [breathingPhase, setBreathingPhase] = useState("inhale");
   const [breathingProgress, setBreathingProgress] = useState(0);
 
-  const breathingExercises = [
-    { id: 1, title: "4-7-8 Breathing", description: "Calm anxiety and promote sleep" },
-    { id: 2, title: "Box Breathing", description: "Improve focus and reduce stress" },
-  ];
+  const [selectedSound, setSelectedSound] = useState("anxiety");
+
+  const [timeLeft, setTimeLeft] = useState(1500);
+  const [isRunning, setIsRunning] = useState(false);
 
   const journalPrompts = [
     "What are three things you're grateful for today?",
@@ -47,7 +70,13 @@ const ActivitiesPage = () => {
     "Write a note to your future self.",
   ];
 
+  const breathingExercises = [
+    { id: 1, title: "4-7-8 Breathing", description: "Calm anxiety and promote sleep" },
+    { id: 2, title: "Box Breathing", description: "Improve focus and reduce stress" },
+  ];
+
   /* ================= FETCH DATA ================= */
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -57,16 +86,39 @@ const ActivitiesPage = () => {
         const journalRes = await api.get("/journal");
         setJournalEntries(journalRes.data);
       } catch (error) {
-        console.error("Failed to fetch data");
+        console.error("Data fetch failed");
       } finally {
-        setLoadingMoods(false);
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  /* ================= SAVE JOURNAL ================= */
+  /* ================= FOCUS TIMER ================= */
+
+  useEffect(() => {
+    let timer;
+    if (isRunning && timeLeft > 0) {
+      timer = setInterval(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isRunning, timeLeft]);
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+
+  const startTimer = () => setIsRunning(true);
+  const pauseTimer = () => setIsRunning(false);
+  const resetTimer = () => {
+    setIsRunning(false);
+    setTimeLeft(1500);
+  };
+
+  /* ================= JOURNAL ================= */
+
   const submitJournal = async () => {
     if (!selectedPrompt || !journalText.trim()) return;
 
@@ -85,8 +137,10 @@ const ActivitiesPage = () => {
       console.error("Journal save failed");
     }
   };
+  
 
   /* ================= BREATHING ================= */
+
   const startBreathingExercise = () => {
     setBreathingActive(true);
     let p = 0;
@@ -119,17 +173,69 @@ const ActivitiesPage = () => {
     <Box sx={{ minHeight: "100vh", background: "linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%)", py: 6 }}>
       <Container maxWidth="xl">
 
+        <Typography variant="h4" sx={{ mb: 5 }}>
+          🌿 Self-Healing Hub
+        </Typography>
+
+        {/* ================= HEALING SOUNDS ================= */}
+
+        <Card sx={{ ...glassCard, mb: 6 }}>
+          <CardContent>
+            <Typography variant="h5" sx={{ mb: 2 }}>
+              🎧 Healing Sounds
+            </Typography>
+
+            <Tabs
+              value={selectedSound}
+              onChange={(e, val) => setSelectedSound(val)}
+              centered
+            >
+              {Object.keys(soundCategories).map((key) => (
+                <Tab key={key} value={key} label={soundCategories[key].title} />
+              ))}
+            </Tabs>
+
+            <Box sx={{ mt: 3 }}>
+              <iframe
+                width="100%"
+                height="315"
+                src={soundCategories[selectedSound].embed}
+                title="Healing Sound"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+              />
+            </Box>
+          </CardContent>
+        </Card>
+
+        {/* ================= FOCUS TIMER ================= */}
+
+        <Card sx={{ ...glassCard, mb: 6, textAlign: "center" }}>
+          <CardContent>
+            <Typography variant="h5" sx={{ mb: 2 }}>
+              ⏳ Focus Timer
+            </Typography>
+
+            <Typography variant="h3">
+              {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+            </Typography>
+
+            <Button onClick={startTimer} sx={{ mr: 1 }}>Start</Button>
+            <Button onClick={pauseTimer} sx={{ mr: 1 }}>Pause</Button>
+            <Button onClick={resetTimer}>Reset</Button>
+          </CardContent>
+        </Card>
+
         {/* ================= MOOD HISTORY ================= */}
-        <Typography variant="h5" sx={{ mb: 3, color: "#2e5c3e" }}>
+
+        <Typography variant="h5" sx={{ mb: 3 }}>
           🌿 Your Mood History
         </Typography>
 
-        {loadingMoods ? (
+        {loading ? (
           <CircularProgress />
         ) : moods.length === 0 ? (
-          <Typography sx={{ mb: 4 }}>
-            🌱 No mood entries yet.
-          </Typography>
+          <Typography>No mood entries yet.</Typography>
         ) : (
           moods.map((mood) => (
             <Card key={mood._id} sx={{ ...glassCard, mb: 2 }}>
@@ -149,26 +255,26 @@ const ActivitiesPage = () => {
         )}
 
         {/* ================= JOURNAL ================= */}
-        <Typography variant="h5" sx={{ mt: 6, mb: 3, color: "#2e5c3e" }}>
+
+        <Typography variant="h5" sx={{ mt: 6, mb: 3 }}>
           📝 Journal Prompts
         </Typography>
 
         <Grid container spacing={2}>
           {journalPrompts.map((prompt, i) => (
             <Grid item xs={12} md={6} key={i}>
-              <Card sx={glassCard}>
-                <CardContent>
-                  <Typography sx={{ mb: 2, color: "#5a8a6a" }}>
-                    {prompt}
-                  </Typography>
-                  <Button
-                    sx={{ color: "#4a7c59", textTransform: "none" }}
-                    onClick={() => setSelectedPrompt(prompt)}
-                  >
-                    Write →
-                  </Button>
-                </CardContent>
-              </Card>
+              <motion.div whileHover={{ y: -6 }}>
+                <Card sx={glassCard}>
+                  <CardContent>
+                    <Typography sx={{ mb: 2 }}>
+                      {prompt}
+                    </Typography>
+                    <Button onClick={() => setSelectedPrompt(prompt)}>
+                      Write →
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
             </Grid>
           ))}
         </Grid>
@@ -186,52 +292,44 @@ const ActivitiesPage = () => {
                 rows={4}
                 value={journalText}
                 onChange={(e) => setJournalText(e.target.value)}
-                placeholder="Write your thoughts..."
               />
 
-              <Button
-                sx={{
-                  mt: 2,
-                  bgcolor: "#4a7c59",
-                  color: "white",
-                  textTransform: "none",
-                }}
-                onClick={submitJournal}
-              >
+              <Button sx={{ mt: 2 }} onClick={submitJournal}>
                 Save Entry
               </Button>
             </CardContent>
           </Card>
         )}
+{/* ================= JOURNAL HISTORY ================= */}
 
-        {/* ================= JOURNAL HISTORY ================= */}
-        <Typography variant="h6" sx={{ mt: 6, mb: 2 }}>
-          Your Journal Entries
+<Typography variant="h6" sx={{ mt: 6, mb: 2 }}>
+  📖 Your Journal Entries
+</Typography>
+
+{journalEntries.length === 0 ? (
+  <Typography>No journal entries yet.</Typography>
+) : (
+  journalEntries.map((entry) => (
+    <Card key={entry._id} sx={{ ...glassCard, mb: 2 }}>
+      <CardContent>
+        <Typography variant="subtitle2" sx={{ mb: 1 }}>
+          {entry.prompt}
         </Typography>
-
-        {journalEntries.length === 0 ? (
-          <Typography>No journal entries yet.</Typography>
-        ) : (
-          journalEntries.map((entry) => (
-            <Card key={entry._id} sx={{ ...glassCard, mb: 2 }}>
-              <CardContent>
-                <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                  {entry.prompt}
-                </Typography>
-                <Typography sx={{ mb: 1 }}>
-                  {entry.content}
-                </Typography>
-                <Typography variant="caption">
-                  {new Date(entry.date).toLocaleString()}
-                </Typography>
-              </CardContent>
-            </Card>
-          ))
-        )}
+        <Typography sx={{ mb: 1 }}>
+          {entry.content}
+        </Typography>
+        <Typography variant="caption">
+          {new Date(entry.date).toLocaleString()}
+        </Typography>
+      </CardContent>
+    </Card>
+  ))
+)}
 
         {/* ================= BREATHING ================= */}
-        <Typography sx={{ mt: 6, mb: 3, color: "#2e5c3e" }} variant="h5">
-          Breathing Practices
+
+        <Typography sx={{ mt: 6, mb: 3 }} variant="h5">
+          🧘 Breathing Practices
         </Typography>
 
         <Grid container spacing={3}>
@@ -240,22 +338,13 @@ const ActivitiesPage = () => {
               <motion.div whileHover={{ y: -6 }}>
                 <Card sx={glassCard}>
                   <CardContent>
-                    <Typography sx={{ color: "#2e5c3e", mb: 1 }}>
+                    <Typography sx={{ mb: 1 }}>
                       {exercise.title}
                     </Typography>
-                    <Typography sx={{ color: "#5a8a6a", mb: 2 }}>
+                    <Typography sx={{ mb: 2 }}>
                       {exercise.description}
                     </Typography>
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      onClick={startBreathingExercise}
-                      sx={{
-                        bgcolor: "rgba(78,124,89,0.9)",
-                        borderRadius: 50,
-                        textTransform: "none",
-                      }}
-                    >
+                    <Button fullWidth onClick={startBreathingExercise}>
                       Begin
                     </Button>
                   </CardContent>
@@ -270,15 +359,7 @@ const ActivitiesPage = () => {
             <Typography sx={{ color: phaseColor, mb: 2 }}>
               {breathingPhase.toUpperCase()}
             </Typography>
-            <LinearProgress
-              variant="determinate"
-              value={breathingProgress}
-              sx={{
-                height: 8,
-                borderRadius: 4,
-                "& .MuiLinearProgress-bar": { bgcolor: phaseColor },
-              }}
-            />
+            <LinearProgress variant="determinate" value={breathingProgress} />
           </Paper>
         )}
 
