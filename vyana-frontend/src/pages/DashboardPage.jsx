@@ -107,7 +107,9 @@ const DashboardPage = () => {
   const handleMoodSubmit = async () => {
   if (!moodText.trim() && !selectedMood) return;
 
-  const selected = moodOptions.find((m) => m.value === selectedMood);
+  const selected = moodOptions.find(
+    (m) => m.value === selectedMood
+  );
 
   if (!selected) return;
 
@@ -120,18 +122,19 @@ const DashboardPage = () => {
       text: moodText,
     });
 
-    // Refresh dashboard data after save
+    // Refetch dashboard after saving
     const res = await api.get("/dashboard");
     setDashboardData(res.data);
 
     setMoodText("");
     setSelectedMood(null);
   } catch (error) {
-    console.error("Mood submit failed");
+    console.error("Mood submit failed", error);
   } finally {
     setIsAnalyzing(false);
   }
 };
+
 
 
   if (loadingDashboard) {
